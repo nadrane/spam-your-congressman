@@ -17,8 +17,7 @@ export class DistrictLookup {
       );
       this.districts = featureCollection.features;
     } catch (err) {
-      console.error("failed to load district data");
-      process.exit(1);
+      throw new Error("Failed to load district data");
     }
   }
 
