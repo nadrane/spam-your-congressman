@@ -13,7 +13,6 @@ const messages: Messages = {};
 
 const app = express();
 app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
 
 app.post("/receive", async (req, res) => {
   const incomingMessage: TwilioIncomingMessage = req.body;
