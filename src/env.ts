@@ -4,7 +4,8 @@ export const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
 export const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
 export const PORT = process.env.PORT || "1337";
 export const TWILIO_MAKE_CALL_URL =
-  process.env.TWILIO_MAKE_CALL_URL || `http:/${os.hostname()}:${PORT}/makeCall`;
+  process.env.TWILIO_MAKE_CALL_URL ||
+  `http://${os.hostname()}:${PORT}/makeCall`;
 export const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 export const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 export const ALWAYS_CALL_ME =
