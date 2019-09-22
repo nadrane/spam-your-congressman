@@ -1,4 +1,4 @@
-This application allows users to automate calls to their house congressman by sending a text message to a specified phone number.
+This application allows users to automate calls to their house congressman by sending a text message to a specified phone number. Its aim is to make it as easy as possible to ensure your congressman hears your message. It's not actually going to spam anyone :)
 
 This application is currently deployed at https://spam-your-congressman.herokuapp.com/
 
