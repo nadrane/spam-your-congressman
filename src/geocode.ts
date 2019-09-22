@@ -1,6 +1,7 @@
 import got from "got";
 import get from "lodash/get";
 import * as env from "./env";
+import logger from "./logging";
 
 export async function getLatLongFromAddress(
   address: string
@@ -17,21 +18,24 @@ export async function getLatLongFromAddress(
     });
     responseBody = JSON.parse(response.body);
   } catch (err) {
-    console.error(err);
+    logger.error({ message: "Google geocode failed ", address, err });
     return;
   }
 
   if (responseBody.status === "REQUEST_DENIED") {
-    console.error(
-      `Google geocode request denied: ${responseBody.error_message}`
-    );
+    logger.error({
+      message: "Google geocode request denied",
+      address,
+      errorMessage: responseBody.error_message
+    });
   }
 
   const coords = get(responseBody, "results[0].geometry.location");
   if (!coords) {
-    console.error(
-      `Address lookup succeeded, but no lat/long provided for address ${address}`
-    );
+    logger.error({
+      message: "No lat/long found for address",
+      address
+    });
     return;
   }
 

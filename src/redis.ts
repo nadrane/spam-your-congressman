@@ -7,6 +7,7 @@ export interface AsyncRedisClient extends RedisClient {
   blpopAsync: (queue: string, timeout: number) => Promise<[string, string]>;
 
   hgetAsync: (hash: string, field: string) => Promise<string | null>;
+  hgetallAsync: (hash: string) => Promise<{ [s: string]: string }>;
   hsetAsync: (hash: string, field: string, value: string) => Promise<number>;
   hmsetAsync: (
     keyValuePairs: [string, ...(string | number)[]]
@@ -23,7 +24,6 @@ export interface AsyncRedisClient extends RedisClient {
 }
 
 export function createRedisClient(redis) {
-  console.log("Creating redis client");
   const redisClient: AsyncRedisClient = redis.createClient({
     host: env.REDIS_HOST,
     port: env.REDIS_PORT
@@ -33,6 +33,7 @@ export function createRedisClient(redis) {
   redisClient.blpopAsync = promisify(redisClient.blpop);
 
   redisClient.hgetAsync = promisify(redisClient.hget);
+  redisClient.hgetallAsync = promisify(redisClient.hgetall);
   redisClient.hsetAsync = promisify(redisClient.hset);
   redisClient.hmsetAsync = promisify(redisClient.hmset);
 
@@ -40,6 +41,5 @@ export function createRedisClient(redis) {
   redisClient.zrangeAsync = promisify(redisClient.zrange);
   redisClient.zremAsync = promisify(redisClient.zrem);
 
-  console.log("Finished creating redis client");
   return redisClient;
 }

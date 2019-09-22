@@ -7,6 +7,7 @@ import { Congress, CongressPerson } from "./interfaces";
 import fs from "fs";
 import { promisify } from "util";
 import { fipsToState } from "../data/fipsToState";
+import logger from "./logging";
 
 const readFileAsync = promisify(fs.readFile);
 
@@ -18,7 +19,7 @@ class CongressPersonLookup {
   congress?: Congress;
 
   async loadCongressAndDistrictData() {
-    console.log("Loading congress and district data");
+    logger.info({ message: "Loading congress and district data" });
     const dataDir = path.join("__dirname", "..", "data");
 
     try {
@@ -40,10 +41,8 @@ class CongressPersonLookup {
         .map(congressmanString => JSON.parse(congressmanString));
       this.districts = featureCollection.features;
     } catch (err) {
-      console.error(err);
       throw new Error("Failed to load district or congress data");
     }
-    console.log("Finished loading congress and district data");
   }
 
   private findDistrict(
@@ -92,7 +91,6 @@ class CongressPersonLookup {
       return;
     }
 
-    console.log(congressionalIdentifier);
     return this.congress.find(
       (congressPerson: CongressPerson) =>
         congressPerson.district === congressionalIdentifier.district &&

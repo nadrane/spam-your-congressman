@@ -13,6 +13,7 @@ import congressPersonLookup from "./congressPersonLookup";
 import callQueue from "./callQueue";
 import { createRedisClient } from "./redis";
 import { makeCall } from "./twilio";
+import logger from "./logging";
 
 const app = express();
 app.use(bodyParser.urlencoded());
@@ -35,7 +36,7 @@ app.post("/makeCall", async (req, res) => {
 
   // call again later if a machine picked it up
   if (req.body.AnsweredBy === "machine_start") {
-    console.log("called", originalCaller, to);
+    logger.debug({ message: "delaying call", originalCaller, to });
     callQueue.delay(originalCaller, 60000);
   }
 
@@ -53,13 +54,13 @@ app.post("/makeCall", async (req, res) => {
 });
 
 app.listen(env.PORT, async () => {
-  console.log(`listening on ${env.PORT}`);
+  logger.info({ message: "server listening", port: env.PORT });
   congressPersonLookup.loadCongressAndDistrictData().catch(err => {
-    console.error("Failed to load congress and district data", err);
+    logger.error({ message: "failed to load congress and district data", err });
     process.exit(1);
   });
   callQueue.start(makeCall).catch(err => {
-    console.error("Failed to initialize call queue", err);
+    logger.error({ message: "failed to initialize call queue", err });
     process.exit(1);
   });
 });

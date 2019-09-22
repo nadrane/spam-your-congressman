@@ -2,6 +2,7 @@ import * as env from "./env";
 import { QueuedMessage } from "./interfaces";
 import redis from "redis";
 import { createRedisClient, AsyncRedisClient } from "./redis";
+import logger from "./logging";
 
 const oneHour = 1000 * 60 * 60;
 
@@ -9,13 +10,18 @@ class CallQueue {
   redisClient?: AsyncRedisClient;
 
   async start(callback: (message: QueuedMessage) => Promise<void>) {
-    console.log("Starting call queue");
+    logger.info({ message: "starting call queue" });
     this.initializeRedisClient();
 
     setInterval(async () => {
-      console.log("checking delays");
+      logger.info({ message: "checking delayed message queue" });
       const nextDelayedMessage = await this.getNextDelayedMessage();
       if (nextDelayedMessage) {
+        logger.info({
+          message: "requeueing delayed",
+          originalCaller: nextDelayedMessage.originalCaller,
+          to: nextDelayedMessage.to
+        });
         await this.push(nextDelayedMessage);
         await this.removeDelayedMessage(nextDelayedMessage.originalCaller);
       }
@@ -43,9 +49,13 @@ class CallQueue {
   async push(message: QueuedMessage) {
     if (!this.redisClient) {
       throw new Error(
-        "You must invoke CallQueue.start before enqueuing messages"
+        "you must invoke CallQueue.start before enqueuing messages"
       );
     }
+
+    this.redisClient.hgetallAsync(message.originalCaller).then(res => {
+      logger.debug({ message: "queueing message", ...res });
+    });
 
     try {
       await this.redisClient.rpushAsync(
@@ -53,7 +63,7 @@ class CallQueue {
         JSON.stringify(message)
       );
     } catch (err) {
-      console.error("Failed to add message to redis queue", err);
+      logger.error({ message: "failed to add message to redis queue", err });
       throw err;
     }
   }
@@ -102,7 +112,10 @@ class CallQueue {
         orginalCaller
       );
     } catch (err) {
-      console.error("Failed to add delayed message to redis set", err);
+      logger.error({
+        message: "failed to add delayed message to redis set",
+        err
+      });
       throw err;
     }
   }

@@ -2,7 +2,7 @@ import * as env from "./env";
 import { QueuedMessage } from "./interfaces";
 import { encode } from "querystring";
 import callQueue from "./callQueue";
-import os from "os";
+import logger from "./logging";
 
 const twilioClient = require("twilio")(
   env.TWILIO_ACCOUNT_SID,
@@ -19,12 +19,11 @@ export function makeCall(message: QueuedMessage) {
     .create({
       machineDetection: "Enable",
       url: `${env.TWILIO_MAKE_CALL_URL}?${callMetadata}`,
-      to: "+18473637049", //message.to,
+      to: env.ALWAYS_CALL_ME ? "+18473637049" : message.to,
       from: "+12248777067"
     })
-    .then(call => console.log(call.sid))
     .catch(err => {
-      console.error("Error making twilio call", err);
+      logger.error({ message: "error making twilio call", err });
       const fifteenMinutes = 15 * 60 * 1000;
       callQueue.delay(message.originalCaller, fifteenMinutes);
     });

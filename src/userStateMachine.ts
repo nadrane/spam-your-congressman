@@ -2,6 +2,7 @@ import { TwilioIncomingMessage, Stage } from "./interfaces";
 import congressmenLookup from "./congressPersonLookup";
 import callQueue from "./callQueue";
 import { AsyncRedisClient } from "./redis";
+import logger from "./logging";
 
 function assertNever(x: never): never {
   throw new Error("Unhandled variant: " + x);
@@ -16,6 +17,13 @@ export async function nextMessage(
     "stage"
   )) as Stage;
 
+  logger.debug({
+    message: "text received",
+    stage: currentStage,
+    originalCaller: incomingMessage.From,
+    body: incomingMessage.Body
+  });
+
   if (!currentStage) {
     return initialMessage(incomingMessage, redisClient);
   }
@@ -26,7 +34,7 @@ export async function nextMessage(
     case Stage.GATHER_MESSAGE:
       return gatherMessage(incomingMessage, redisClient);
     case Stage.QUEUED_MESSAGE:
-      return "Have a good day. We're making a call now.";
+      return "We'll contact you once we've successfully delivered your message. Please reach out with another message once we're successful :)";
     default:
       return assertNever(currentStage);
   }
@@ -54,6 +62,11 @@ async function gatherAddress(
 
   // Keep the stage at GATHER_ADDRESS so that they can enter another address
   if (!congressPerson) {
+    logger.warn({
+      message: "unable to find congressperson",
+      address,
+      originalCaller: incomingMessage.From
+    });
     return `Oh no! We weren't able to find your congressPerson. Maybe try another address :)`;
   }
 

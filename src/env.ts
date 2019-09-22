@@ -8,3 +8,6 @@ export const TWILIO_MAKE_CALL_URL =
 export const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 export const REDIS_PORT = Number(process.env.REDIS_PORT) || 6379;
 export const REDIS_HOST = process.env.REDIS_HOST || "localhost";
+export const ALWAYS_CALL_ME = !Boolean(process.env.ALWAYS_CALL_ME)
+  ? false
+  : true;
