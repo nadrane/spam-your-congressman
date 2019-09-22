@@ -14,7 +14,7 @@ class CallQueue {
     this.initializeRedisClient();
 
     setInterval(async () => {
-      logger.info({ message: "checking delayed message queue" });
+      logger.trace({ message: "checking delayed message queue" });
       const nextDelayedMessage = await this.getNextDelayedMessage();
       if (nextDelayedMessage) {
         logger.info({
