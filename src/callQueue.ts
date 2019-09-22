@@ -65,9 +65,20 @@ class CallQueue {
       );
     }
 
+    // It's weird that we are using such a short timeout for blpop
+    // Doesn't that negate its performance advantages?
+    // Sort of, yes, but this application is a bit odd.
+    // Usually the producer and consumer of a queue run on different machines
+    // on a different connections
+    // I'm trying to save money by running everything on one machine.
+    // Blocking pops prevents writes to the queue until it times out
+    // This creates an unacceptable wait for the user.
+    // I have a feel using 2 connections would fix this issue,
+    // but franky, we don't have crazy performance constraints, so I'll settle
+    // for a short timeout
     const messageString = await this.redisClient.blpopAsync(
       "queue:messages",
-      15
+      1
     );
 
     if (!messageString) {
