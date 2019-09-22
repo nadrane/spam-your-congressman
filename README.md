@@ -22,13 +22,14 @@ docker build .
 
 All of the data assets come bundled in the `data` folder, so you shouldn't need to run any scripts to run the application. You will, however, need to set a number of environment variables. You can do this inside a file named [.env](https://www.freecodecamp.org/news/nodejs-custom-env-files-in-your-apps-fa7b3e67abe1/).
 
-| Environment Variable | Contents                                                                                                                  |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| TWILIO_ACCOUNT_SID   | The account ID for your Twilio account                                                                                    |
-| TWILIO_MAKE_CALL_URL | A URL that [twilio](https://www.twilio.com/) uses for incoming calls. This should be your host/makeCall                   |
-| PORT                 | The port this application should run on?                                                                                  |
-| GOOGLE_API_KEY       | A Google cloud API key with access to the [geocode API](https://developers.google.com/maps/documentation/geocoding/start) |
-| PORT                 | The port this application should run on?                                                                                  | TWILIO_OUTGOING_NUMBER | The number Twilio will make calls from |
+| Environment Variable   | Contents                                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| TWILIO_ACCOUNT_SID     | The account ID for your Twilio account                                                                                    |
+| TWILIO_MAKE_CALL_URL   | A URL that [twilio](https://www.twilio.com/) uses for incoming calls. This should be your host/makeCall                   |
+| PORT                   | The port this application should run on                                                                                   |
+| GOOGLE_API_KEY         | A Google cloud API key with access to the [geocode API](https://developers.google.com/maps/documentation/geocoding/start) |
+| PORT                   | The port this application should run on?                                                                                  |
+| TWILIO_OUTGOING_NUMBER | The number Twilio will make calls from                                                                                    |
 
 # Build
 
