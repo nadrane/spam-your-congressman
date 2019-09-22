@@ -1,4 +1,3 @@
-import { Response } from "got";
 import got from "got";
 import get from "lodash/get";
 import * as env from "./env";
@@ -8,20 +7,27 @@ export async function getLatLongFromAddress(
 ): Promise<[number, number] | undefined> {
   const url = "https://maps.googleapis.com/maps/api/geocode/json";
 
-  let response: Response<string>;
+  let responseBody;
   try {
-    response = await got.get(url, {
+    const response = await got.get(url, {
       query: {
         key: env.GOOGLE_API_KEY,
         address
       }
     });
+    responseBody = JSON.parse(response.body);
   } catch (err) {
     console.error(err);
     return;
   }
 
-  const coords = get(JSON.parse(response.body), "results[0].geometry.location");
+  if (responseBody.status === "REQUEST_DENIED") {
+    console.error(
+      `Google geocode request denied: ${responseBody.error_message}`
+    );
+  }
+
+  const coords = get(responseBody, "results[0].geometry.location");
   if (!coords) {
     console.error(
       `Address lookup succeeded, but no lat/long provided for address ${address}`

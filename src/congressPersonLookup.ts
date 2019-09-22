@@ -6,7 +6,7 @@ import { getLatLongFromAddress } from "./geocode";
 import { Congress, CongressPerson } from "./interfaces";
 import fs from "fs";
 import { promisify } from "util";
-import { fipsToState } from "./data/fipsToState";
+import { fipsToState } from "../data/fipsToState";
 
 const readFileAsync = promisify(fs.readFile);
 
@@ -18,6 +18,7 @@ class CongressPersonLookup {
   congress?: Congress;
 
   async loadCongressAndDistrictData() {
+    console.log("Loading congress and district data");
     const dataDir = path.join("__dirname", "..", "data");
 
     try {
@@ -42,6 +43,7 @@ class CongressPersonLookup {
       console.error(err);
       throw new Error("Failed to load district or congress data");
     }
+    console.log("Finished loading congress and district data");
   }
 
   private findDistrict(

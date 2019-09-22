@@ -21,17 +21,9 @@ export interface TwilioIncomingMessage {
 }
 
 export enum Stage {
-  GATHER_ADDRESS,
-  GATHER_MESSAGE,
-  QUEUED_MESSAGE
-}
-
-export interface Messages {
-  [incomingPhoneNumber: string]: {
-    stage: Stage;
-    message?: string;
-    postalCode?: string;
-  };
+  GATHER_ADDRESS = "GATHER_ADDRESS",
+  GATHER_MESSAGE = "GATHER_MESSAGE",
+  QUEUED_MESSAGE = "QUEUED_MESSAGE"
 }
 
 export interface CongressPerson {
@@ -73,6 +65,11 @@ export interface CongressPerson {
   geoid: string;
   missed_votes_pct: number;
   votes_with_party_pct: number;
+}
+
+export interface QueuedMessage {
+  to: string;
+  originalCaller: string;
 }
 
 export type Congress = Array<CongressPerson>;
