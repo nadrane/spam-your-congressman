@@ -11,3 +11,7 @@ export const REDIS_HOST = process.env.REDIS_HOST || "localhost";
 export const ALWAYS_CALL_ME = !Boolean(process.env.ALWAYS_CALL_ME)
   ? false
   : true;
+
+type LogLevels = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
+export const LOG_LEVEL: LogLevels =
+  (process.env.LOG_LEVEL as LogLevels) || "debug";
