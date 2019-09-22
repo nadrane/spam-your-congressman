@@ -1,0 +1,1 @@
+It would be nice to get the arcgis files out of here. They make the docker image and the git repo unnecessarily large.
