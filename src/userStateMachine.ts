@@ -67,7 +67,7 @@ async function gatherAddress(
     congressPerson.phone
   ]);
 
-  return `Thank you! We'll phone ${congressPerson.first_name} ${congressPerson.last_name} on your behalf. We'll give him whatever message you give me. What would you like us to say?`;
+  return `Thank you! We'll phone ${congressPerson.first_name} ${congressPerson.last_name} on your behalf. We'll give them whatever message you give me. What would you like us to say?`;
 }
 
 async function gatherMessage(
