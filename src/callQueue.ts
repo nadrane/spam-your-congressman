@@ -36,11 +36,8 @@ class CallQueue {
   }
 
   private initializeRedisClient() {
-    if (!env.REDIS_HOST) {
-      throw new Error("env var REDIS_HOST must be defined");
-    }
-    if (!env.REDIS_PORT) {
-      throw new Error("env var REDIS_PORT must be defined");
+    if (!env.REDIS_URL) {
+      throw new Error("env var REDIS_URL must be defined");
     }
 
     this.redisClient = createRedisClient(redis);

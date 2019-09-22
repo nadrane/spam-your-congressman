@@ -26,8 +26,7 @@ export interface AsyncRedisClient extends RedisClient {
 
 export function createRedisClient(redis) {
   const redisClient: AsyncRedisClient = redis.createClient({
-    host: env.REDIS_HOST,
-    port: env.REDIS_PORT
+    url: env.REDIS_URL
   }) as AsyncRedisClient;
 
   redisClient.rpushAsync = promisify(redisClient.rpush);
