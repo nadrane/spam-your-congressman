@@ -65,7 +65,7 @@ async function respondWithMessage({ originalCaller, res }) {
     message = "Goodbye";
   }
   twimlMessage.say(
-    `The following message is being delivered on behalf of one of your constituents by spam your congressman. ${message}`
+    `The following message is being sent on behalf of one of your constituents: ${message}`
   );
 
   res.writeHead(200, { "Content-Type": "text/xml" });
