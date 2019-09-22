@@ -2,7 +2,6 @@ import { TwilioIncomingMessage, Stage } from "./interfaces";
 import congressmenLookup from "./congressPersonLookup";
 import callQueue from "./callQueue";
 import { AsyncRedisClient } from "./redis";
-import uuidv4 from "uuid/v4";
 
 function assertNever(x: never): never {
   throw new Error("Unhandled variant: " + x);
@@ -40,9 +39,7 @@ async function initialMessage(
   await redisClient.hmsetAsync([
     incomingMessage.From,
     "stage",
-    Stage.GATHER_ADDRESS,
-    "transactionId",
-    uuidv4()
+    Stage.GATHER_ADDRESS
   ]);
 
   return `Welcome to the congressman messaging service! Can you send us your address so we can determine your congressman's district?`;
