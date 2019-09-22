@@ -89,7 +89,7 @@ async function respondWithMessage({ originalCaller, res }) {
 
 function delayMessage({ originalCaller, to, res }) {
   logger.debug({ message: "delaying call", originalCaller, to });
-  callQueue.delay(originalCaller, 60000);
+  callQueue.delay(originalCaller);
   const twimlMessage = new twiml.VoiceResponse();
   twimlMessage.hangup();
   res.writeHead(200, { "Content-Type": "text/xml" });

@@ -50,7 +50,7 @@ async function initialMessage(
     Stage.GATHER_ADDRESS
   ]);
 
-  return `Welcome to the congressman messaging service! Can you send us your address so we can determine your congressman's district?`;
+  return `Welcome to the congressional representative messaging service! Can you send us your address so we can determine your congressman's district?`;
 }
 
 async function gatherAddress(
