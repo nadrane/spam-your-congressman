@@ -26,6 +26,6 @@ export function makeCall(message: QueuedMessage) {
     .catch(err => {
       console.error("Error making twilio call", err);
       const fifteenMinutes = 15 * 60 * 1000;
-      callQueue.delay(message, fifteenMinutes);
+      callQueue.delay(message.originalCaller, fifteenMinutes);
     });
 }

@@ -17,6 +17,7 @@ class CallQueue {
       const nextDelayedMessage = await this.getNextDelayedMessage();
       if (nextDelayedMessage) {
         await this.push(nextDelayedMessage);
+        await this.removeDelayedMessage(nextDelayedMessage.originalCaller);
       }
     }, oneHour / 200);
 
@@ -75,7 +76,7 @@ class CallQueue {
     return JSON.parse(messageString[1]) as QueuedMessage;
   }
 
-  async delay(message: QueuedMessage, waitTimeMs = oneHour) {
+  async delay(orginalCaller: string, waitTimeMs = oneHour) {
     if (!this.redisClient) {
       throw new Error(
         "You must invoke CallQueue.start before enqueuing messages"
@@ -87,7 +88,7 @@ class CallQueue {
       await this.redisClient.zaddAsync(
         "set:delayed",
         dequeueTime,
-        JSON.stringify(message)
+        orginalCaller
       );
     } catch (err) {
       console.error("Failed to add delayed message to redis set", err);
@@ -110,8 +111,26 @@ class CallQueue {
     );
 
     if (Number(nextDelayedMessage[1]) <= Date.now()) {
-      return JSON.parse(nextDelayedMessage[0]);
+      const originalCaller = nextDelayedMessage[0];
+      const congressPersonPhone = (await this.redisClient.hgetAsync(
+        originalCaller,
+        "congressPersonPhone"
+      )) as string;
+      return {
+        originalCaller,
+        to: congressPersonPhone
+      };
     }
+  }
+
+  private removeDelayedMessage(orginalCaller: string): Promise<number> {
+    if (!this.redisClient) {
+      throw new Error(
+        "You must invoke CallQueue.start before removing delayed messages"
+      );
+    }
+
+    return this.redisClient.zremAsync("set:delayed", orginalCaller);
   }
 }
 

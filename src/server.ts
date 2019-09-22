@@ -36,13 +36,7 @@ app.post("/makeCall", async (req, res) => {
   // call again later if a machine picked it up
   if (req.body.AnsweredBy === "machine_start") {
     console.log("called", originalCaller, to);
-    callQueue.delay(
-      {
-        originalCaller,
-        to
-      },
-      60000
-    );
+    callQueue.delay(originalCaller, 60000);
   }
 
   const twimlMessage = new twiml.VoiceResponse();

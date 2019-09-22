@@ -19,6 +19,7 @@ export interface AsyncRedisClient extends RedisClient {
     stop: number,
     withScores?: "withscores"
   ) => Promise<string[]>;
+  zremAsync: (set: string, value: string) => Promise<number>;
 }
 
 export function createRedisClient(redis) {
@@ -37,6 +38,7 @@ export function createRedisClient(redis) {
 
   redisClient.zaddAsync = promisify(redisClient.zadd);
   redisClient.zrangeAsync = promisify(redisClient.zrange);
+  redisClient.zremAsync = promisify(redisClient.zrem);
 
   console.log("Finished creating redis client");
   return redisClient;
