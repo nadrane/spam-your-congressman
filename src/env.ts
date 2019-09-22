@@ -14,3 +14,5 @@ export const ALWAYS_CALL_ME = !Boolean(process.env.ALWAYS_CALL_ME)
 type LogLevels = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
 export const LOG_LEVEL: LogLevels =
   (process.env.LOG_LEVEL as LogLevels) || "debug";
+
+export const TWILIO_OUTGOING_NUMBER = process.env.TWILIO_OUTGOING_NUMBER;

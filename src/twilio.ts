@@ -20,7 +20,7 @@ export function makeCall(message: QueuedMessage) {
       machineDetection: "Enable",
       url: `${env.TWILIO_MAKE_CALL_URL}?${callMetadata}`,
       to: env.ALWAYS_CALL_ME ? "+18473637049" : message.to,
-      from: "+12248777067"
+      from: env.TWILIO_OUTGOING_NUMBER
     })
     .catch(err => {
       logger.error({ message: "error making twilio call", err });
@@ -33,7 +33,7 @@ export function initiateText({ message, to }) {
   twilioClient.messages
     .create({
       body: message,
-      from: "+12248777067",
+      from: env.TWILIO_OUTGOING_NUMBER,
       to
     })
     .catch(err => {
