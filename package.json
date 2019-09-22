@@ -16,8 +16,7 @@
     "lodash": "^4.17.15",
     "redis": "^2.8.0",
     "twilio": "^3.34.0",
-    "typescript": "^3.6.3",
-    "uuid": "^3.3.3"
+    "typescript": "^3.6.3"
   },
   "devDependencies": {
     "@types/shapefile": "^0.6.0",
