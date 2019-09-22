@@ -28,3 +28,20 @@ export function makeCall(message: QueuedMessage) {
       callQueue.delay(message.originalCaller, fifteenMinutes);
     });
 }
+
+export function initiateText({ message, to }) {
+  twilioClient.messages
+    .create({
+      body: message,
+      from: "+12248777067",
+      to
+    })
+    .catch(err => {
+      logger.error({
+        message: "error initiating twilio text",
+        messageContents: message,
+        to,
+        err
+      });
+    });
+}

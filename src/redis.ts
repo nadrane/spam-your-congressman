@@ -12,6 +12,7 @@ export interface AsyncRedisClient extends RedisClient {
   hmsetAsync: (
     keyValuePairs: [string, ...(string | number)[]]
   ) => Promise<"OK">;
+  delAsync: (key: string) => Promise<number>;
 
   zaddAsync: (set: string, score: number, value: string) => Promise<number>;
   zrangeAsync: (
@@ -32,6 +33,7 @@ export function createRedisClient(redis) {
   redisClient.rpushAsync = promisify(redisClient.rpush);
   redisClient.blpopAsync = promisify(redisClient.blpop);
 
+  redisClient.delAsync = promisify(redisClient.del);
   redisClient.hgetAsync = promisify(redisClient.hget);
   redisClient.hgetallAsync = promisify(redisClient.hgetall);
   redisClient.hsetAsync = promisify(redisClient.hset);
