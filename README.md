@@ -28,7 +28,7 @@ All of the data assets come bundled in the `data` folder, so you shouldn't need 
 | TWILIO_MAKE_CALL_URL   | A URL that [twilio](https://www.twilio.com/) uses for incoming calls. This should be your host/makeCall                   |
 | PORT                   | The port this application should run on                                                                                   |
 | GOOGLE_API_KEY         | A Google cloud API key with access to the [geocode API](https://developers.google.com/maps/documentation/geocoding/start) |
-| PORT                   | The port this application should run on?                                                                                  |
+| PORT                   | The port this application should run on                                                                                   |
 | TWILIO_OUTGOING_NUMBER | The number Twilio will make calls from                                                                                    |
 
 # Build
