@@ -4,7 +4,9 @@ This application allows users to automate calls to their house congressman by se
 
 This application is currently deployed at https://spam-your-congressman.herokuapp.com/
 
-You can interact with it by texting anything to +1 (614)-347-1893. It will guide you through a workflow to obtain your address (to lookup your congressional district) and your message. It will make repeated phone calls to your representative until someone picks up the phone and your messaged is relayed. The application will notify you once it has successfully reached your representative.
+You can try out the app by texting anything to +1 (614)-347-1893. 
+
+It will guide you through a workflow to obtain your address (to lookup your congressional district) and your message. It will make repeated phone calls to your representative until someone picks up the phone and your messaged is relayed. The application will notify you once it has successfully reached your representative.
 
 ## Installation
 
